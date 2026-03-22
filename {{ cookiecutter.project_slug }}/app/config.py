@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     DATABASE_ECHO: bool = False
 {% endif %}
 {% if cookiecutter.database == "sqlite" %}
-    DATABASE_URL: str = "sqlite:///./app.db"
+    DATABASE_URL: SecretStr
 {% elif cookiecutter.database == "postgresql" %}
-    DATABASE_URL: str
+    DATABASE_URL: SecretStr
 {% endif %}

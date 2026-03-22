@@ -8,13 +8,14 @@ from app import settings
 def get_engine() -> Engine:
     """Create and return a new SQLAlchemy engine instance."""
     connect_args = {}
-    is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+    db_url = settings.DATABASE_URL.get_secret_value()
+    is_sqlite = db_url.startswith("sqlite")
 
     if is_sqlite:
         connect_args["check_same_thread"] = False
 
     return create_engine(
-        settings.DATABASE_URL,
+        db_url,
         connect_args=connect_args,
         echo=settings.DATABASE_ECHO,
         pool_pre_ping=not is_sqlite,
