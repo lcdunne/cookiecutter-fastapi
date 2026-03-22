@@ -8,4 +8,4 @@ if [ -f './.env' ]; then
   . ./.env
 fi
 
-uvicorn app.main:create_app --reload --log-config=logging_config.yaml
+uvicorn app.main:app --reload --log-config=logging_config.yaml
