@@ -20,7 +20,7 @@ After following the prompts, `cd` into the new directory and run:
 
 ```sh
 chmod +x setup.sh start.sh
-./setup.sh [poetry|pip]
+./setup.sh
 ```
 
 ## Directory structure
