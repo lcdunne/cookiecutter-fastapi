@@ -1,30 +1,35 @@
 # Cookiecutter FastAPI
 
-Creates a small FastAPI server with optional database.
+Creates a small FastAPI server with optional database support.
 
 ## Quickstart
 
-Run the following, to create :
+The quickest way to use this is to run this script (feel free to check what it does first!):
 
 ```sh
-cookiecutter .
+curl -fsSL https://raw.githubusercontent.com/lcdunne/cookiecutter-fastapi/main/bootstrap.sh | sh
+```
+
+Alternatively, if you already have `cookiecutter` installed:
+
+```sh
+cookiecutter gh:lcdunne/cookiecutter-fastapi
 ```
 
 After following the prompts, `cd` into the new directory and run:
 
 ```sh
-sudo chmod +x ./setup.sh ./start.sh
+chmod +x setup.sh start.sh
+./setup.sh [poetry|pip]
 ```
 
-The `setup.sh` file will configure the project by installing the minimum dependencies needed for the FastAPI server. Currently only `pip` and `poetry` are supported.
-
-The resulting directory structure will look like this:
+## Directory structure
 
 ```
 .
 ├── app
 │   ├── config.py
-│   ├── database.py
+│   ├── database.py       # only if a database was selected
 │   ├── dependencies.py
 │   ├── __init__.py
 │   └── main.py
@@ -33,14 +38,27 @@ The resulting directory structure will look like this:
 ├── docker-compose.yaml
 ├── Dockerfile
 ├── logging_config.yaml
-├── poetry.lock
-├── pyproject.toml
-├── README.md
+├── pyproject.toml        # only if using poetry
+├── requirements.txt      # only if using pip
 ├── setup.sh
 └── start.sh
 ```
 
-To run the app using docker, just call `docker compose up --build`. To test the application, navigate to `http://localhost:8000/docs` and hit the `_health` or `_db_health` endpoint.
+## Running
+
+To run with Docker:
+
+```sh
+docker compose up --build
+```
+
+To run locally:
+
+```sh
+./start.sh
+```
+
+Navigate to `http://localhost:8000/docs` to explore the API.
 
 ## TODO
 
