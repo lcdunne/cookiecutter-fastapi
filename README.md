@@ -63,4 +63,3 @@ Navigate to `http://localhost:8000/docs` to explore the API.
 ## TODO
 
 - Prompt for tests
-- Prompt for "big or small" project

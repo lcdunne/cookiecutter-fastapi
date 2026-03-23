@@ -8,4 +8,4 @@ if [ -f './.env' ]; then
   . ./.env
 fi
 
-uvicorn app.main:app --reload --log-config=logging_config.yaml
+uvicorn {% if cookiecutter.project_size == "large" %}app.main:create_app --factory{% else %}app.main:app{% endif %} --reload --log-config=logging_config.yaml

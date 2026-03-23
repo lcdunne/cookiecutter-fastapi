@@ -9,6 +9,7 @@ if project_size == "small":
         "api",
         "client",
         "database",
+        "exceptions",
         "middleware",
         "repository",
         "schemas",
@@ -22,7 +23,7 @@ if project_size == "small":
     if database == "none":
         os.remove(os.path.join("app", "database.py"))
 else:
-    for module in ["database.py", "dependencies.py"]:
+    for module in ["database.py", "dependencies.py", "schemas.py"]:
         os.remove(os.path.join("app", module))
 
     if database == "none":

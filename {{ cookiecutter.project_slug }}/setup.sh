@@ -29,8 +29,8 @@ poetry add --group dev $DEV_DEPS
 poetry install
 
 echo "Formatting code..."
-poetry run isort .
-poetry run black .
+poetry run isort . --quiet
+poetry run black . --quiet
 {% else %}
 echo "Setting up with pip..."
 
@@ -40,8 +40,8 @@ pip install $DEPS $DEV_DEPS
 pip freeze > requirements.txt
 
 echo "Formatting code..."
-isort .
-black .
+isort . --quiet
+black . --quiet
 {% endif %}
 
 cp .env.example .env
