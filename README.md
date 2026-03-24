@@ -1,6 +1,8 @@
 # Cookiecutter FastAPI
 
-Creates a small FastAPI server with optional database support.
+Scaffolds a FastAPI server with configurable size, database support, and test setup.
+
+This is how I have grown used to organising FastAPI projects - it might not be for everyone. It serves mainly for me to avoid having to do all the same stuff repetitively. Hopefully it is useful.
 
 ## Quickstart
 
@@ -19,11 +21,24 @@ cookiecutter gh:lcdunne/cookiecutter-fastapi
 After following the prompts, `cd` into the new directory and run:
 
 ```sh
-chmod +x setup.sh start.sh
+sudo chmod +x setup.sh start.sh
 ./setup.sh
 ```
 
+The `setup.sh` script will install all dependencies according to the dependency manager chosen during the cookiecutter generation.
+
+You will be prompted for the following when generating a project:
+
+- **dependency_manager**: `poetry` or `pip`
+- **project_size**: `small` (flat structure) or `large` (layered structure)
+- **database**: `sqlite`, `postgresql`, or `none`
+- **include_tests**: `yes` or `no`
+
+Note that if PostgreSQL is chosen, and tests are included, a separate database will be created for the tests. If your project is called `myproj`, then there will be a `myproj` and a `myproj_test` database. An in-memory database is used for SQLite tests.
+
 ## Directory structure
+
+### Small project
 
 ```
 .
@@ -32,14 +47,64 @@ chmod +x setup.sh start.sh
 │   ├── database.py       # only if a database was selected
 │   ├── dependencies.py
 │   ├── __init__.py
-│   └── main.py
+│   ├── main.py
+│   └── schemas.py
 ├── docker
-│   └── entrypoint.sh
+│   ├── entrypoint.sh
+│   └── init.sql          # only if postgresql
+├── tests                 # only if include_tests == yes
+│   ├── conftest.py
+│   └── test_index.py
 ├── docker-compose.yaml
 ├── Dockerfile
 ├── logging_config.yaml
-├── pyproject.toml        # only if using poetry
-├── requirements.txt      # only if using pip
+├── pytest.ini            # only if include_tests == yes
+├── setup.sh
+└── start.sh
+```
+
+### Large project
+
+```
+.
+├── app
+│   ├── api
+│   │   ├── dependencies
+│   │   │   ├── auth.py
+│   │   │   └── db.py     # only if a database was selected
+│   │   └── routes
+│   │       └── index.py
+│   ├── client
+│   ├── database          # only if a database was selected
+│   │   ├── lifecycle.py
+│   │   ├── models.py
+│   │   └── session.py
+│   ├── exceptions
+│   │   ├── domain.py
+│   │   ├── handlers.py
+│   │   └── http.py
+│   ├── middleware
+│   ├── repository
+│   │   └── index.py
+│   ├── schemas
+│   │   ├── queries.py
+│   │   └── response.py
+│   ├── services
+│   │   └── index.py
+│   ├── utils
+│   ├── config.py
+│   ├── __init__.py
+│   └── main.py
+├── docker
+│   ├── entrypoint.sh
+│   └── init.sql          # only if postgresql
+├── tests                 # only if include_tests == yes
+│   ├── conftest.py
+│   └── test_index.py
+├── docker-compose.yaml
+├── Dockerfile
+├── logging_config.yaml
+├── pytest.ini            # only if include_tests == yes
 ├── setup.sh
 └── start.sh
 ```
@@ -52,10 +117,16 @@ To run with Docker:
 docker compose up --build
 ```
 
-To run locally:
+To run locally (assuming the db is accessible):
 
 ```sh
 ./start.sh
 ```
 
-Navigate to `http://localhost:8000/docs` to explore the API.
+When running locally, if using PostgreSQL, you will need to make sure the database is accessible. For example, by running `docker compose up db` you will just run the database service.
+
+Navigate to `http://localhost:8000/docs` to explore the API docs.
+
+## Running the tests
+
+Just call `pytest` with the virtual environment active.
