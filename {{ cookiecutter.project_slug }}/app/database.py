@@ -1,8 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from app import settings
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 def get_engine() -> Engine:
@@ -13,6 +18,9 @@ def get_engine() -> Engine:
 
     if is_sqlite:
         connect_args["check_same_thread"] = False
+
+    if db_url == "sqlite:///:memory:":
+        return create_engine(db_url, connect_args=connect_args, poolclass=StaticPool)
 
     return create_engine(
         db_url,

@@ -25,6 +25,7 @@ services:
       - 5432:5432
     volumes:
       - {{ cookiecutter.project_slug }}_data:/var/lib/postgresql/18/docker
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     command: ["postgres", "-c", "timezone=UTC"]
 
 volumes:

@@ -6,5 +6,6 @@
   "author_email": "you@example.com",
   "dependency_manager": ["poetry", "pip"],
   "project_size": ["small", "large"],
-  "database": ["none", "sqlite", "postgresql"]
+  "database": ["sqlite", "postgresql", "none"],
+  "include_tests": ["yes", "no"]
 }

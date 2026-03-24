@@ -59,7 +59,3 @@ To run locally:
 ```
 
 Navigate to `http://localhost:8000/docs` to explore the API.
-
-## TODO
-
-- Prompt for tests

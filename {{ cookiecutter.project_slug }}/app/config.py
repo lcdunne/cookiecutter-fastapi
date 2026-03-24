@@ -7,7 +7,7 @@ class Settings(BaseSettings):
 
     APPLICATION_NAME: str = "{{ cookiecutter.project_name }}"
     API_KEY: SecretStr
-{% if cookiecutter.database != None %}
+{% if cookiecutter.database != "none" %}
     DATABASE_ECHO: bool = False
 {% endif %}
 {% if cookiecutter.database == "sqlite" %}

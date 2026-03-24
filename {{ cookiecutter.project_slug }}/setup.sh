@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-DEPS="fastapi pydantic pydantic-settings python-dotenv uvicorn pyyaml{% if cookiecutter.database == 'sqlite' %} sqlalchemy{% elif cookiecutter.database == 'postgresql' %} sqlalchemy psycopg2-binary{% endif %}"
-DEV_DEPS="black isort pytest pytest-random-order mkdocs"
+DEPS="fastapi pydantic pydantic-settings python-dotenv uvicorn pyyaml httpx{% if cookiecutter.database == 'sqlite' %} sqlalchemy{% elif cookiecutter.database == 'postgresql' %} sqlalchemy psycopg2-binary{% endif %}"
+DEV_DEPS="black isort mkdocs{% if cookiecutter.include_tests == 'yes' %} pytest pytest-random-order pytest-env{% endif %}"
 
 {% if cookiecutter.dependency_manager == "poetry" %}
 echo "Setting up with Poetry..."
@@ -20,8 +20,6 @@ package-mode = false
 [tool.isort]
 profile = "black"
 
-[tool.pytest.ini_options]
-addopts = "--random-order"
 EOF
 
 poetry add $DEPS
